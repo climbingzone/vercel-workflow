@@ -14,12 +14,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - uses: nelonoel/branch-name@v1
       - name: Extract branch name
         shell: bash
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
         id: extract_branch
       - name: Install Apollo client
         run: echo $DEPLOYMENT_URL
-      - run: echo ${{ steps.extract_branch.outputs.branch }}
-      - name: Get Ref
-        run: echo ${{ github.ref }}
+      - run: echo ${BRANCH_NAME}
