@@ -12,7 +12,6 @@ jobs:
       SERVICE_NAME: media
       DEPLOYMENT_URL: ${{ github.event.deployment_status.target_url }}/api/graphql
       GRAPH: climbingzone-graph
-      SERVICE: ${{ echo ${{ github.event.deployment_status.target_url }} | cut -d'-' -f 1 }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -40,6 +39,6 @@ jobs:
           --graph=$GRAPH \
           --variant=${{ steps.deployment_environment.outputs.lowercase }} \
           --endpoint=$DEPLOYMENT_URL \
-          --serviceName=$SERVICE_NAME \
+          --serviceName=${echo ${{ github.event.deployment_status.target_url }} | cut -d'-' -f 1} \
           --serviceURL=$DEPLOYMENT_URL \
           --key=${{ secrets.APOLLO_KEY }}
