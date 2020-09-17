@@ -14,6 +14,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
       - name: Install Apollo client
         run: echo $DEPLOYMENT_URL
-      - run: echo ${GITHUB_REF##*/}
+      - run: echo ${{ steps.extract_branch.outputs.branch }}
