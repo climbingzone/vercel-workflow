@@ -8,11 +8,13 @@ jobs:
   update-graph:
     name: Update Apollo Graph
     runs-on: ubuntu-latest
+    env:
+      DEPLOYMENT_URL: ${{ github.event.deployment_status.target_url }}
+      BRANCH: ${GITHUB_REF##*/}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Dump GitHub context
-        env:
-          DEPLOYMENT_URL: ${{ github.event.deployment_status.target_url }}
+      - name: Install Apollo client
         run: echo $DEPLOYMENT_URL
+      - run: echo $BRANCH
