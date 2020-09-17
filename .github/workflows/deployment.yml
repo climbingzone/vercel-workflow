@@ -23,7 +23,7 @@ jobs:
       - name: Echo Deployment URL
         run: echo $DEPLOYMENT_URL
       - name: Echo Service
-        run: echo $SERVICE
+        run: echo $(echo ${{ github.event.deployment_status.target_url }} | cut -d'-' -f 1)
       - name: Echo graph variant
         id: graph_variant
         run: echo ${{ steps.deployment_environment.outputs.lowercase }}
@@ -39,6 +39,6 @@ jobs:
           --graph=$GRAPH \
           --variant=${{ steps.deployment_environment.outputs.lowercase }} \
           --endpoint=$DEPLOYMENT_URL \
-          --serviceName=${echo ${{ github.event.deployment_status.target_url }} | cut -d'-' -f 1} \
+          --serviceName=$(echo ${{ github.event.deployment_status.target_url }} | cut -d'-' -f 1) \
           --serviceURL=$DEPLOYMENT_URL \
           --key=${{ secrets.APOLLO_KEY }}
