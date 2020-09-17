@@ -21,3 +21,4 @@ jobs:
       - name: Install Apollo client
         run: echo $DEPLOYMENT_URL
       - run: echo ${{ steps.extract_branch.outputs.branch }}
+      - run: echo ${{ github.ref }}
