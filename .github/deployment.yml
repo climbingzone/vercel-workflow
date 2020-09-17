@@ -1,0 +1,17 @@
+name: graph-update
+
+on: deployment
+
+jobs:
+  # Set the job key. The key is displayed as the job name
+  # when a job name is not provided
+  update-graph:
+    name: Update Apollo Graph
+    runs-on: ubuntu-latest
+
+  steps:
+    # Checks out a copy of your repository on the ubuntu-latest machine
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - run: echo {{ github.event }}

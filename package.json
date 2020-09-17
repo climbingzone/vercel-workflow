@@ -1,0 +1,8 @@
+{
+  "name": "vercel-monorepo",
+  "private": true,
+  "workspaces": [
+    "projects/*"
+  ],
+  "scripts": {}
+}

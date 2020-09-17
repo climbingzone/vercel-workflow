@@ -1,0 +1,12 @@
+{
+  "name": "@climbingzone/vercel-monorepo-hello",
+  "version": "1.0.0",
+  "description": "Monorepo dependencies",
+  "author": "Nick McIntosh <nick@nickmcintosh.net>",
+  "private": true,
+  "scripts": {},
+  "dependencies": {
+    "@vercel/node": "^1.8.0",
+    "unique-names-generator": "^4.3.1"
+  }
+}
