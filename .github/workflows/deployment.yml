@@ -26,6 +26,6 @@ jobs:
         id: graph_variant
         run: echo ${{ steps.deployment_environment.outputs.lowercase }}
       - name: Install Apollo CLI
-        run: yarn global add apollo@^2.30.3
+        run: npm install -g apollo@^2.30.3
       - name: Update Apollo Studio Graph
-        run: apollo service:push --endpoint=$DEPLOYMENT_URL --serviceName=$SERVICE_NAME --serviceURL=$DEPLOYMENT_URL
+        run: yarn apollo service:push --endpoint=$DEPLOYMENT_URL --serviceName=$SERVICE_NAME --serviceURL=$DEPLOYMENT_URL
