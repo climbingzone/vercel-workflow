@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DEPLOYMENT_URL: ${{ github.event.deployment_status.target_url }}
-      BRANCH: ${GITHUB_REF##*/}
+      BRANCH: ${{ GITHUB_REF##*/ }}
 
     steps:
       - name: Checkout code
