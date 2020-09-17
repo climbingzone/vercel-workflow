@@ -10,11 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DEPLOYMENT_URL: ${{ github.event.deployment_status.target_url }}
-      BRANCH: ${{ GITHUB_REF##*/ }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Install Apollo client
         run: echo $DEPLOYMENT_URL
-      - run: echo $BRANCH
+      - run: echo ${GITHUB_REF##*/}
