@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SERVICE_NAME: media
-      DEPLOYMENT_URL: ${{ github.event.deployment_status.target_url }}/api/graphql
+      GRAPH_ENDPOINT: ${{ github.event.deployment_status.target_url }}/api/graphql
       GRAPH: climbingzone-graph
     steps:
       - name: Checkout code
@@ -23,7 +23,7 @@ jobs:
       - name: Echo Deployment URL
         run: echo $DEPLOYMENT_URL
       - name: Echo Service
-        run: URL=${{ github.event.deployment_status.target_url }} echo $(echo ${URL:8} | cut -d'-' -f 1)
+        run: echo $(echo ${GRAPH_ENDPOINT:8} | cut -d'-' -f 1)
       - name: Echo graph variant
         id: graph_variant
         run: echo ${{ steps.deployment_environment.outputs.lowercase }}
@@ -38,7 +38,7 @@ jobs:
           yarn apollo service:push \
           --graph=$GRAPH \
           --variant=${{ steps.deployment_environment.outputs.lowercase }} \
-          --endpoint=$DEPLOYMENT_URL \
-          --serviceName=$(echo ${{ github.event.deployment_status.target_url }} | cut -d'-' -f 1) \
-          --serviceURL=$DEPLOYMENT_URL \
+          --endpoint=$GRAPH_ENDPOINT \
+          --serviceName=$(echo ${GRAPH_ENDPOINT:8} | cut -d'-' -f 1) \
+          --serviceURL=$GRAPH_ENDPOINT \
           --key=${{ secrets.APOLLO_KEY }}
