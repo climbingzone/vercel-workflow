@@ -29,4 +29,11 @@ jobs:
       - name: Install Apollo CLI
         run: yarn add apollo@^2.30.3 -W
       - name: Update Apollo Studio Graph
-        run: yarn apollo service:push --graph=$GRAPH --variant=${{ steps.deployment_environment.outputs.lowercase }} --endpoint=$DEPLOYMENT_URL --serviceName=$SERVICE_NAME --serviceURL=$DEPLOYMENT_URL
+        run: |
+          yarn apollo service:push \
+          --graph=$GRAPH \
+          --variant=${{ steps.deployment_environment.outputs.lowercase }} \
+          --endpoint=$DEPLOYMENT_URL \
+          --serviceName=$SERVICE_NAME \
+          --serviceURL=$DEPLOYMENT_URL \
+          --key=${{ secrets.APOLLO_KEY }}
