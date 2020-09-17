@@ -15,4 +15,4 @@ jobs:
       - name: Dump GitHub context
         env:
           DEPLOYMENT_URL: ${{ github.event.deployment_status.target_url }}
-        run: echo "$DEPLOYMENT_URL"
+        run: echo $DEPLOYMENT_URL
