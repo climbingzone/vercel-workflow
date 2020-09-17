@@ -35,10 +35,10 @@ jobs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
       - name: Install Apollo CLI
+        if: $(echo ${SERVICE_ENDPOINT:8} | cut -d'-' -f 1) != $GATEWAY_PROJECT
         run: yarn add apollo@^2.30.3 -W
-        if: $(echo ${SERVICE_ENDPOINT:8} | cut -d'-' -f 1)" != "$GATEWAY_PROJECT"
       - name: Update Apollo Studio Graph
-        if: $(echo ${SERVICE_ENDPOINT:8} | cut -d'-' -f 1)" != "$GATEWAY_PROJECT"
+        if: $(echo ${SERVICE_ENDPOINT:8} | cut -d'-' -f 1) != $GATEWAY_PROJECT
         run: |
           yarn apollo service:push \
           --graph=$GRAPH \
