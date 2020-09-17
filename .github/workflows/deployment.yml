@@ -9,39 +9,23 @@ jobs:
     name: Update Apollo Graph
     runs-on: ubuntu-latest
     env:
-      DEPLOYMENT_URL: ${{ github.event.deployment_status.target_url }}
-      DEPLOYMENT_ENV: ${{ github.event.deployment.environment }}
+      SERVICE_NAME: "media"
+      DEPLOYMENT_URL: ${{ github.event.deployment_status.target_url }}/api/graphql
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - uses: nelonoel/branch-name@v1
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
-      - name: Install Apollo client
-        run: echo $DEPLOYMENT_URL
-      - id: environment
+      - name: Get deployment environment
+        id: deployment_environment
         uses: ASzc/change-string-case-action@v1
         with:
           string: ${{ github.event.deployment.environment }}
+      - name: Echo Deployment URL
+        run: echo $DEPLOYMENT_URL
       - name: Echo graph variant
         id: graph_variant
-        run: echo ${{ steps.environment.outputs.lowercase }}
-      - uses: FranzDiebold/github-env-vars-action@v1.2.0
-      - name: Print environment variables
-        run: |
-          echo "GITHUB_REPOSITORY_SLUG=$GITHUB_REPOSITORY_SLUG"
-          echo "GITHUB_REPOSITORY_OWNER=$GITHUB_REPOSITORY_OWNER"
-          echo "GITHUB_REPOSITORY_OWNER_SLUG=$GITHUB_REPOSITORY_OWNER_SLUG"
-          echo "GITHUB_REPOSITORY_NAME=$GITHUB_REPOSITORY_NAME"
-          echo "GITHUB_REPOSITORY_NAME_SLUG=$GITHUB_REPOSITORY_NAME_SLUG"
-          echo "GITHUB_REF_SLUG=$GITHUB_REF_SLUG"
-          echo "GITHUB_REF_NAME=$GITHUB_REF_NAME"
-          echo "GITHUB_REF_NAME_SLUG=$GITHUB_REF_NAME_SLUG"
-          echo "GITHUB_SHA_SHORT=$GITHUB_SHA_SHORT"
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
+        run: echo ${{ steps.deployment_environment.outputs.lowercase }}
+      - name: Install Apollo CLI
+        run: yarn global add apollo@^2.30.3
+      - name: Update Apollo Studio Graph
+        run: apollo service:push --endpoint=$DEPLOYMENT_URL --serviceName=$SERVICE_NAME --serviceURL=$DEPLOYMENT_URL
