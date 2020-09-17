@@ -9,9 +9,8 @@ jobs:
     name: Update Apollo Graph
     runs-on: ubuntu-latest
 
-  steps:
-    # Checks out a copy of your repository on the ubuntu-latest machine
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - run: echo {{ github.event }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Echo
+        run: echo {{ github.event }}
