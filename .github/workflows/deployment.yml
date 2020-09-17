@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DEPLOYMENT_URL: ${{ github.event.deployment_status.target_url }}
+      DEPLOYMENT_ENV: ${{ github.event.deployment.environment }}
 
     steps:
       - name: Checkout code
@@ -21,6 +22,12 @@ jobs:
         id: extract_branch
       - name: Install Apollo client
         run: echo $DEPLOYMENT_URL
+      - id: environment
+        uses: ASzc/change-string-case-action@v1
+        with:
+          string: ${{ github.event.deployment.environment }}
+      - id: Echo graph variant
+        run: echo ${{ steps.environment.outputs.lowercase }}
       - uses: FranzDiebold/github-env-vars-action@v1.2.0
       - name: Print environment variables
         run: |
