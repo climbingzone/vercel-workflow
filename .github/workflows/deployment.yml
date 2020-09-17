@@ -12,6 +12,7 @@ jobs:
       SERVICE_NAME: media
       DEPLOYMENT_URL: ${{ github.event.deployment_status.target_url }}/api/graphql
       GRAPH: climbingzone-graph
+      SERVICE: echo ${{ github.event.deployment_status.target_url }} | cut -d'-' -f 1
 
     steps:
       - name: Checkout code
@@ -23,6 +24,8 @@ jobs:
           string: ${{ github.event.deployment.environment }}
       - name: Echo Deployment URL
         run: echo $DEPLOYMENT_URL
+      - name: Echo Service
+        run: echo $SERVICE
       - name: Echo graph variant
         id: graph_variant
         run: echo ${{ steps.deployment_environment.outputs.lowercase }}
