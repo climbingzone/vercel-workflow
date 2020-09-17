@@ -26,7 +26,8 @@ jobs:
         uses: ASzc/change-string-case-action@v1
         with:
           string: ${{ github.event.deployment.environment }}
-      - id: Echo graph variant
+      - name: Echo graph variant
+        id: graph_variant
         run: echo ${{ steps.environment.outputs.lowercase }}
       - uses: FranzDiebold/github-env-vars-action@v1.2.0
       - name: Print environment variables
