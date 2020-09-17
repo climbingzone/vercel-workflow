@@ -7,6 +7,7 @@ import {
 } from 'unique-names-generator';
 
 export default (req: NowRequest, res: NowResponse) => {
+  // TEst
   const name = uniqueNamesGenerator({
     dictionaries: [adjectives, colors, animals],
   });
