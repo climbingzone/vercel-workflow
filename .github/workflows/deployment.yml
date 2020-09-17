@@ -9,8 +9,9 @@ jobs:
     name: Update Apollo Graph
     runs-on: ubuntu-latest
     env:
-      SERVICE_NAME: "media"
+      SERVICE_NAME: media
       DEPLOYMENT_URL: ${{ github.event.deployment_status.target_url }}/api/graphql
+      GRAPH: climbingzone-graph
 
     steps:
       - name: Checkout code
@@ -28,4 +29,4 @@ jobs:
       - name: Install Apollo CLI
         run: yarn add apollo@^2.30.3 -W
       - name: Update Apollo Studio Graph
-        run: yarn apollo service:push --endpoint=$DEPLOYMENT_URL --serviceName=$SERVICE_NAME --serviceURL=$DEPLOYMENT_URL
+        run: yarn apollo service:push --graph=$GRAPH --variant=${{ steps.deployment_environment.outputs.lowercase }} --endpoint=$DEPLOYMENT_URL --serviceName=$SERVICE_NAME --serviceURL=$DEPLOYMENT_URL
