@@ -8,7 +8,7 @@ jobs:
   update-graph:
     name: Update Apollo Graph
     runs-on: ubuntu-latest
-    if: github.event.deployment_status.status == "success"
+    if: github.event.deployment_status.status == 'success'
     env:
       SERVICE_NAME: media
       GRAPH_ENDPOINT: ${{ github.event.deployment_status.target_url }}/api/graphql
