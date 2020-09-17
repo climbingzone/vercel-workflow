@@ -26,6 +26,10 @@ jobs:
       - name: Echo graph variant
         id: graph_variant
         run: echo ${{ steps.deployment_environment.outputs.lowercase }}
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
       - name: Install Apollo CLI
         run: yarn add apollo@^2.30.3 -W
       - name: Update Apollo Studio Graph
