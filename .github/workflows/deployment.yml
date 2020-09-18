@@ -11,7 +11,7 @@ jobs:
     if: github.event.deployment_status.state == 'success'
     env:
       SERVICE_ENDPOINT: ${{ github.event.deployment_status.target_url }}/api/graphql
-      GRAPH: climbingzone-graph
+      GRAPH: climbing-zone
       GATEWAY_PROJECT: vercel
     steps:
       - name: Checkout code
