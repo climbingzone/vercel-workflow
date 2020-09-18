@@ -1,4 +1,4 @@
-name: graph-update
+name: Update Graph
 
 on: deployment_status
 
@@ -36,21 +36,24 @@ jobs:
         run: echo "$GITHUB_CONTEXT"
       - name: Install Apollo CLI
         run: |
-          if [ "$(echo ${SERVICE_ENDPOINT:8} | cut -d'-' -f 1)" = "$GATEWAY_PROJECT" ]; then
+          PROJECT_NAME=echo $(echo ${{ steps.deployment_environment.outputs.lowercase }} | cut -d" " -f 1)
+          if [ "$PROJECT_NAME" = "$GATEWAY_PROJECT" ]; then
               echo "Gateway does not require graph update"
           else
             yarn add apollo@^2.30.3 -W
           fi
       - name: Update Apollo Studio Graph
         run: |
-          if [ "$(echo ${SERVICE_ENDPOINT:8} | cut -d'-' -f 1)" = "$GATEWAY_PROJECT" ]; then
+          PROJECT_NAME=echo $(echo ${{ steps.deployment_environment.outputs.lowercase }} | cut -d" " -f 1)
+          if [ "$PROJECT_NAME" = "$GATEWAY_PROJECT" ]; then
               echo "Gateway does not require graph update"
           else
+            VARIANT=echo $(echo ${{ steps.deployment_environment.outputs.lowercase }} | cut -d" " -f 3)
             yarn apollo service:push \
             --graph=$GRAPH \
-            --variant=${{ steps.deployment_environment.outputs.lowercase }} \
+            --variant=$VARIANT \
             --endpoint=$SERVICE_ENDPOINT \
-            --serviceName=$(echo ${SERVICE_ENDPOINT:8} | cut -d'-' -f 1) \
+            --serviceName=$PROJECT_NAME \
             --serviceURL=$SERVICE_ENDPOINT \
             --key=${{ secrets.APOLLO_KEY }}
           fi
